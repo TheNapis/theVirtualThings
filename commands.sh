@@ -210,7 +210,7 @@ vm-status() {
     podman inspect --format '{{.State.Status}}' "$name"
 }
 
-# VM NETWORK PART (vn = virtual network)
+# VN NETWORK PART (vn = virtual network)
 
 vn-create() {
     local name=""
