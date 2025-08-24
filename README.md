@@ -2,7 +2,7 @@
 
 Works with podman.
 
-Avaliable commands :
+The most easy way to "_install_" those commands is just to add all the content of [commands.sh](./commands.sh) at the end of your .bashrc, .zshrc,... 
 
 ## Containers commands 
 ### VM PART (vm = virtual machine)
