@@ -25,7 +25,7 @@ vm-status : Get the status of a Podman container.
 
 ---
 
-### VM NETWORK PART (vn = virtual network)
+### VN NETWORK PART (vn = virtual network)
 
 vn-create : Create a new Podman network.
 
