@@ -1,0 +1,15 @@
+name="$1"
+if [[ -z "$name" ]]; then
+    echo "Error: A name is required."
+    echo "Try 'vm-stop --help' for usage."
+    exit 1
+elif [[ $name == "-h" || $name == "--help" ]]; then
+    echo "Usage: vm-stop NAME"
+    echo "Stop a running Podman container."
+    echo ""
+    echo "Options:"
+    echo "--help, -h          Show this help message and exit."
+    echo ""
+    exit 0
+fi
+podman stop -t 3 "$name"

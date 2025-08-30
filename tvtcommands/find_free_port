@@ -1,0 +1,5 @@
+port=5900
+while podman container ps --format '{{.Ports}}' -a | grep -q "$port"; do
+    ((port++))
+done
+echo "$port"

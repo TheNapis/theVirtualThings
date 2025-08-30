@@ -1,0 +1,21 @@
+arg1="$1"
+if [[ $arg1 == "-h" || $arg1 == "--help" ]]; then
+    echo "Usage: vm-ls-images [OPTIONS]"
+    echo "List all Podman images."
+    echo ""
+    echo "Options:"
+    echo "--help, -h          Show this help message and exit."
+    echo "--only-name, -n     List only image names."
+    echo ""
+    exit 0
+elif [[ $arg1 == "-n" || $arg1 == "--only-name" ]]; then
+    podman images --format {{.Repository}}
+    exit 0
+elif [[ -z "$arg1" ]]; then
+    podman images
+    exit 0
+else
+    echo "Error: Unknown argument '$arg1'."
+    echo "Try 'vm-ls --help' for usage."
+    exit 1
+fi

@@ -1,0 +1,16 @@
+network_name="$1"
+container_name="$2"
+if [[ $network_name == "-h" || $network_name == "--help" ]]; then
+    echo "Usage: vn-disconnect NETWORK CONTAINER"
+    echo "Disconnect a Podman container from a network."
+    echo ""
+    echo "Options:"
+    echo "--help, -h          Show this help message and exit."
+    echo ""
+    exit 0
+elif [[ -z "$network_name" || -z "$container_name" ]]; then
+    echo "Error: Network name and container name are required."
+    echo "Try 'vn-disconnect --help' for usage."
+    exit 1
+fi
+podman network disconnect "$network_name" "$container_name"

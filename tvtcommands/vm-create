@@ -1,0 +1,128 @@
+name="$1"
+xfce=false
+vnc_port=5900
+isolated=false
+connect=false
+network_name=""
+run_now=false
+distro="debian"
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+    --xfce|-x)
+        xfce=true
+        ;;
+    --run-now|-r)
+        run_now=true
+        ;;
+    --distro|-d)
+        distro="$2"
+        shift
+        ;;
+    --isolated|-i)
+        if $connect; then
+            echo "Error: --isolated and --connect cannot be used together."
+            exit 1
+        fi
+        isolated=true
+        ;;
+    --connect|-c)
+        if $isolated; then
+            echo "Error: --isolated and --connect cannot be used together."
+            exit 1
+        fi
+        connect=true
+        network_name="$2"
+        ;;
+
+    --help|-h)
+        echo "Usage: vm-create [OPTIONS] NAME"
+        echo "Create a new Debian container with podman."
+        echo ""
+        echo "Options:"
+        echo "--xfce, -x              Create a Debian container with XFCE desktop environment and VNC access."
+        echo "--insolated, -i         Create an isolated container with no network access."
+        echo "--connect, -c NET       Connect the container to an existing network NET."
+        echo "--distro, -d DISTRO     Specify the Linux distribution (debian, fedora, archlinux). Default is debian."
+        echo "--run-now, -r           Start and attach to the container immediately after creation."
+        echo "--help, -h              Show this help message and exit."
+        echo ""
+        exit 0
+        ;;
+    *)
+        name="$1"
+        ;;
+    esac
+    shift 1
+done
+
+if [[ -z "$name" ]]; then
+    echo "Error: A name is required."
+    echo "Try 'vm-create --help' for usage."
+    exit 1
+fi
+
+
+args=()
+case $distro in
+    debian)
+        if $xfce; then
+            vnc_port=$(find_free_port)
+            args+=(-p "$vnc_port:5900" debian_xfce:latest)
+        else
+            args+=(deb_mod:latest)
+        fi
+        ;;
+    fedora)
+        if $xfce; then
+            vnc_port=$(find_free_port)
+            args+=(-p "$vnc_port:5900" fedora_xfce:latest)
+        else
+            args+=(fedora_mod:latest)
+        fi
+        ;;
+    arch|archlinux)
+        if $xfce; then
+            vnc_port=$(find_free_port)
+            args+=(-p "$vnc_port:5900" arch_xfce:latest)
+        else
+            args+=(arch_mod:latest)
+        fi
+        ;;
+    *)
+        echo "Error: Unsupported distro '$distro'. Supported distros are 'debian', 'fedora' and 'archlinux'."
+        exit 1
+        ;;
+esac
+
+
+
+if podman create -it -h="$name" --name="$name" --network bridge --cap-add=NET_ADMIN --restart always --systemd always "${args[@]}" ; then
+    if $xfce; then
+        echo "Machine $name created with $distro and XFCE on port $vnc_port."
+    else
+        echo "Machine $name created with $distro."
+    fi
+    if $isolated; then
+        podman network disconnect podman "$name"
+        podman network create --internal isolated-$name
+        podman network connect isolated-$name "$name"
+        echo "Container $name is isolated into the isolated-$name network."
+    elif $connect; then
+        if podman network inspect $network_name &> /dev/null; then
+            podman network connect "$network_name" "$name"
+            echo "Container $name connected to network $network_name."
+        else
+            echo "Error: Network $network_name does not exist."
+            podman rm "$name"
+            echo "Container $name removed due to network configuration error."
+            exit 1
+        fi
+    fi
+    $run_now && podman start "$name" && podman attach "$name"
+    exit 0
+else
+    echo "Machine creation failed."
+    exit 1
+fi
+

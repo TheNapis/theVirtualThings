@@ -1,0 +1,18 @@
+arg1="$1"
+if [[ -z "$arg1" ]]; then
+    podman network ls
+elif [[ $arg1 == "-h" || $arg1 == "--help" ]]; then
+    echo "Usage: vn-ls [OPTIONS]"
+    echo "List all Podman networks."
+    echo ""
+    echo "Options:"
+    echo "--help, -h          Show this help message and exit."
+    echo "--only-name, -n     List only network names."
+    echo ""
+elif [[ $arg1 == "-n" || $arg1 == "--only-name" ]]; then
+    podman network ls -q
+else
+    echo "Error: Unknown argument '$arg1'."
+    echo "Try 'vm-ls --help' for usage."
+    exit 1
+fi

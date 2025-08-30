@@ -1,0 +1,15 @@
+name="$1"
+if [[ -z "$name" ]]; then
+    echo "Error: A name is required."
+    echo "Try 'vm-run --help' for usage."
+    exit 1
+elif [[ $name == "-h" || $name == "--help" ]]; then
+    echo "Usage: vm-run NAME"
+    echo "Start and attach to an existing Podman container."
+    echo ""
+    echo "Options:"
+    echo "--help, -h          Show this help message and exit."
+    echo ""
+    exit 0
+fi
+podman start "$name" && podman attach "$name"

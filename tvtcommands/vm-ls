@@ -1,0 +1,21 @@
+arg1="$1"
+if [[ -z "$arg1" ]]; then
+    podman ps -a
+    exit 0
+elif [[ $arg1 == "-h" || $arg1 == "--help" ]]; then
+    echo "Usage: vm-ls [OPTIONS]"
+    echo "List all Podman containers."
+    echo ""
+    echo "Options:"
+    echo "--help, -h          Show this help message and exit."
+    echo "--only-name, -n     List only container names."
+    echo ""
+    exit 0
+elif [[ $arg1 == "-n" || $arg1 == "--only-name" ]]; then
+    podman ps -a --format '{{.Names}}'
+    exit 0
+else
+    echo "Error: Unknown argument '$arg1'."
+    echo "Try 'vm-ls --help' for usage."
+    exit 1
+fi

@@ -1,0 +1,59 @@
+name=""
+disable_dns=false
+gateway=""
+internal=false
+subnet=""
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+    --disable-dns|-d)
+        disable_dns=true
+        ;;
+    --gateway|-g)
+        gateway="$2"
+        shift
+        ;;
+    --internal|-i)
+        internal=true
+        ;;
+    --subnet|-s)
+        subnet="$2"
+        shift
+        ;;
+    --help|-h)
+        echo "Usage: vn-create [OPTIONS] NAME"
+        echo "Create a new Podman network."
+        echo ""
+        echo "Options:"
+        echo "--disable-dns, -d   Disable DNS on the network."
+        echo "--gateway, -g GW    Set gateway IP address."
+        echo "--internal, -i      Make network internal (no external access)."
+        echo "--subnet, -s SUBNET Set subnet (e.g. 10.88.0.0/16)."
+        echo "--help, -h          Show this help message and exit."
+        echo ""
+        ;;
+    *)
+        name="$1"
+        ;;
+    esac
+    shift
+done
+
+if [[ -z "$name" ]]; then
+    echo "Error: Network name is required."
+    echo "Try 'vn-create --help' for usage."
+    exit 1
+fi
+
+args=()
+$disable_dns && args+=(--disable-dns)
+[[ -n "$gateway" ]] && args+=(--gateway "$gateway")
+$internal && args+=(--internal)
+[[ -n "$subnet" ]] && args+=(--subnet "$subnet")
+
+if podman network create "${args[@]}" "$name"; then
+    echo "Network $name created."
+else
+    echo "Network creation failed."
+    exit 1
+fi
