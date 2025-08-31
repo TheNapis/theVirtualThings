@@ -1,3 +1,5 @@
+#!/bin/bash
+
 arg1="$1"
 if [[ -z "$arg1" ]]; then
     podman ps -a

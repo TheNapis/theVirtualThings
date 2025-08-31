@@ -14,23 +14,10 @@
    <string>theVirtualThings - VM Creation page</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="createAndRunButton">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>440</y>
-      <width>141</width>
-      <height>34</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Create and run now</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="cancelButton">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>450</x>
       <y>440</y>
       <width>88</width>
       <height>34</height>

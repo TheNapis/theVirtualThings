@@ -1,3 +1,5 @@
+#!/bin/bash
+
 name="$1"
 xfce=false
 vnc_port=5900

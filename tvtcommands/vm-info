@@ -1,7 +1,9 @@
+#!/bin/bash
+
 name="$1"
 if [[ -z "$name" ]]; then
     echo "Error: A name is required."
-    echo "Try 'vm-rm --help' for usage."
+    echo "Try 'vm-info --help' for usage."
     exit 1
 elif [[ $name == "-h" || $name == "--help" ]]; then
     echo "Usage: vm-info NAME"
@@ -12,4 +14,9 @@ elif [[ $name == "-h" || $name == "--help" ]]; then
     echo ""
     exit 0
 fi
-podman container inspect --format "{{.Name}} {{.State.Status}} {{.ImageName}} {{.Created}} {{.State.FinishedAt}} {{.NetworkSettings.Networks}}" "$name"
+echo "Name : $(podman container inspect --format "{{.Name}}" "$name")"
+echo "Status : $(podman container inspect --format "{{.State.Status}}" "$name")"
+echo "Image : $(podman container inspect --format "{{.ImageName}}" "$name")"
+echo "Created : $(podman container inspect --format "{{.Created}}" "$name")"
+echo "Finished At : $(podman container inspect --format "{{.State.FinishedAt}}" "$name")"
+echo "Network Settings : $(podman container inspect --format "{{.NetworkSettings.Networks}}" "$name")"

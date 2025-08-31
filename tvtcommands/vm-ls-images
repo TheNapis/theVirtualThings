@@ -1,3 +1,5 @@
+#!/bin/bash
+
 arg1="$1"
 if [[ $arg1 == "-h" || $arg1 == "--help" ]]; then
     echo "Usage: vm-ls-images [OPTIONS]"
@@ -16,6 +18,6 @@ elif [[ -z "$arg1" ]]; then
     exit 0
 else
     echo "Error: Unknown argument '$arg1'."
-    echo "Try 'vm-ls --help' for usage."
+    echo "Try 'vm-ls-images --help' for usage."
     exit 1
 fi
