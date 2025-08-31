@@ -14,7 +14,7 @@
    <string>theVirtualThings - VM Creation page</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="createButton">
+   <widget class="QPushButton" name="createAndRunButton">
     <property name="geometry">
      <rect>
       <x>390</x>
@@ -60,7 +60,7 @@
      <string>Virtual Machine creation page</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="nameLabel">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -78,7 +78,7 @@
      <string>Name : </string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="nameLineEdit">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -88,7 +88,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
+   <widget class="QLabel" name="guiLabel">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -106,7 +106,7 @@
      <string>Does the VM needs to run a graphical interface ? (XFCE 4)</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="guiCheckBox">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -119,7 +119,7 @@
      <string>Yes </string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QLabel" name="network1Label">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -137,7 +137,7 @@
      <string>Does the VM needs to be connected to a Virtual Network ?</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QLabel" name="isolatedLabel">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -155,7 +155,7 @@
      <string>Does the VM needs to be isolated in a private network ?</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_3">
+   <widget class="QCheckBox" name="isolatedCheckBox">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -168,7 +168,7 @@
      <string>Yes </string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="networkLineEdit">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -190,7 +190,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label_6">
+   <widget class="QLabel" name="network2Label">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -203,7 +203,7 @@
      <string>Leave Empty if you don't want to</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="createButton_2">
+   <widget class="QPushButton" name="createButton">
     <property name="geometry">
      <rect>
       <x>540</x>
@@ -216,7 +216,7 @@
      <string>Create</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="imageComboBox">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -226,7 +226,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_7">
+   <widget class="QLabel" name="imageLabel">
     <property name="geometry">
      <rect>
       <x>10</x>

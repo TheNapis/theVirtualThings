@@ -1030,7 +1030,7 @@
      <item>
       <layout class="QVBoxLayout" name="vmListVBox">
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="vmListLabel">
          <property name="maximumSize">
           <size>
            <width>16777215</width>
@@ -1056,11 +1056,6 @@
            <height>400</height>
           </size>
          </property>
-         <item>
-          <property name="text">
-           <string>Nouvel élément</string>
-          </property>
-         </item>
         </widget>
        </item>
       </layout>
@@ -1068,7 +1063,7 @@
      <item>
       <layout class="QVBoxLayout" name="vmInfosVBox">
        <item>
-        <widget class="QLabel" name="vmMainlabel">
+        <widget class="QLabel" name="vmInfoLabel">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -1088,7 +1083,7 @@
           </font>
          </property>
          <property name="text">
-          <string>VM Infos</string>
+          <string>VM Info</string>
          </property>
         </widget>
        </item>
