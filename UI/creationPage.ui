@@ -44,7 +44,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Virtual Machine creation page</string>
+     <string>Virtual Machine - Creation</string>
     </property>
    </widget>
    <widget class="QLabel" name="nameLabel">

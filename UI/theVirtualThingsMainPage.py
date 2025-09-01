@@ -16,6 +16,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.startButton.clicked.connect(self.startVM)
         self.stopButton.clicked.connect(self.stopVM)
         self.attachButton.clicked.connect(self.attachVM)
+        self.networkButton.clicked.connect(self.openNetworkPage)
         self.show()
 
     def updateVMInfos(self, vmName):
@@ -29,7 +30,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def updateVMList(self):
         self.listWidget.clear()
-        #self.selectedVM = None
         vmList = os.popen("vm-ls -n").read().splitlines()
         vmList = [line.split()[0] for line in vmList if line]
         for line in vmList:
@@ -150,6 +150,7 @@ class MainWindow(QtWidgets.QMainWindow):
             dialog.setText("The VM has been stopped successfully :)")
             dialog.exec_()
         self.updateVMList()
+        self.infosList.clear()
 
     def attachVM(self):
         if self.selectedVM is None:
@@ -159,8 +160,27 @@ class MainWindow(QtWidgets.QMainWindow):
             dialog.setText("Please select a VM to attach.")
             dialog.exec_()
             return
+        elif "running" not in os.popen(f"vm-status {self.selectedVM}").read():
+            dialog = QtWidgets.QMessageBox()
+            dialog.setWindowTitle("theVirtualThings - Error")
+            dialog.setIcon(QtWidgets.QMessageBox.Critical)
+            dialog.setText("The selected VM is not running.\nPlease start it before attaching.")
+            dialog.exec_()
+            return
         command = f"konsole -e vm-attach {self.selectedVM}"
         os.system(command)
+
+    def openNetworkPage(self):
+        if self.selectedVM is None:
+            dialog = QtWidgets.QMessageBox()
+            dialog.setWindowTitle("theVirtualThings - Error")
+            dialog.setIcon(QtWidgets.QMessageBox.Critical)
+            dialog.setText("Please select a VM to manage its network interfaces.")
+            dialog.exec_()
+            return
+        os.system(f"python3 UI/theVirtualThingsNetworkPage.py {self.selectedVM}")
+
+
 
 app = QtWidgets.QApplication(sys.argv)
 window = MainWindow()
