@@ -17,6 +17,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.stopButton.clicked.connect(self.stopVM)
         self.attachButton.clicked.connect(self.attachVM)
         self.networkButton.clicked.connect(self.openNetworkPage)
+        self.filesButton.clicked.connect(self.openTransferPage)
         self.show()
 
     def updateVMInfos(self, vmName):
@@ -167,8 +168,7 @@ class MainWindow(QtWidgets.QMainWindow):
             dialog.setText("The selected VM is not running.\nPlease start it before attaching.")
             dialog.exec_()
             return
-        command = f"konsole -e vm-attach {self.selectedVM}"
-        os.system(command)
+        subprocess.Popen(["konsole", "-e", f"vm-attach {self.selectedVM}"])
 
     def openNetworkPage(self):
         if self.selectedVM is None:
@@ -180,7 +180,15 @@ class MainWindow(QtWidgets.QMainWindow):
             return
         os.system(f"python3 UI/theVirtualThingsNetworkPage.py {self.selectedVM}")
 
-
+    def openTransferPage(self):
+        if self.selectedVM is None:
+            dialog = QtWidgets.QMessageBox()
+            dialog.setWindowTitle("theVirtualThings - Error")
+            dialog.setIcon(QtWidgets.QMessageBox.Critical)
+            dialog.setText("Please select a VM to transfer files.")
+            dialog.exec_()
+            return
+        os.system(f"python3 UI/theVirtualThingsTransferPage.py {self.selectedVM}")
 
 app = QtWidgets.QApplication(sys.argv)
 window = MainWindow()

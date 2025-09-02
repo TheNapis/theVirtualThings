@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>332</width>
-    <height>203</height>
+    <height>251</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="mainWindowLabel">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -34,7 +34,7 @@
      <string>Virtual Machine - File transfer</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="hostToVMButton">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -47,7 +47,7 @@
      <string>Transfer a file from the host to the VM</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="vmToHostButton">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -60,10 +60,10 @@
      <string>Transfer a file from the VM to the host</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="subLabel">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>130</x>
       <y>60</y>
       <width>131</width>
       <height>18</height>
@@ -71,6 +71,19 @@
     </property>
     <property name="text">
      <string>Host &lt;--&gt; {vmName}</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="mountButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>200</y>
+      <width>291</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mount the VM filesystem</string>
     </property>
    </widget>
   </widget>
