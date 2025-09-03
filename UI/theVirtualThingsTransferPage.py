@@ -18,10 +18,6 @@ class TransferWindow(QtWidgets.QMainWindow):
         self.hostToVMButton.clicked.connect(self.hostToVM)
         self.vmToHostButton.clicked.connect(self.vmToHost)
         self.mountButton.clicked.connect(self.mountVM)
-
-
-
-
         self.show()
 
     def hostToVM(self):
