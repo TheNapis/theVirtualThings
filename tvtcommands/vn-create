@@ -34,6 +34,11 @@ while [[ $# -gt 0 ]]; do
         echo "--help, -h          Show this help message and exit."
         echo ""
         ;;
+    -*)
+        echo "Error: Unknown option '$1'."
+        echo "Try 'vm-create --help' for usage."
+        exit 1
+        ;;
     *)
         name="$1"
         ;;
@@ -52,10 +57,9 @@ $disable_dns && args+=(--disable-dns)
 [[ -n "$gateway" ]] && args+=(--gateway "$gateway")
 $internal && args+=(--internal)
 [[ -n "$subnet" ]] && args+=(--subnet "$subnet")
-
-if podman network create "${args[@]}" "$name"; then
+if output=$(podman network create "${args[@]}" "$name" 2>&1); then
     echo "Network $name created."
 else
-    echo "Network creation failed."
+    echo "Network creation failed. Details : $output"
     exit 1
 fi

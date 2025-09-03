@@ -1,4 +1,23 @@
 #!/bin/bash
 
 name="$1"
-podman network inspect "$name"
+if [[ -z "$name" ]]; then
+    echo "Error: A name is required."
+    echo "Try 'vm-info --help' for usage."
+    exit 1
+elif [[ $name == "-h" || $name == "--help" ]]; then
+    echo "Usage: vn-info NAME"
+    echo "Display information about an existing Podman network."
+    echo ""
+    echo "Options:"
+    echo "--help, -h          Show this help message and exit."
+    echo ""
+    exit 0
+fi
+echo "Name : $(podman network inspect --format "{{.Name}}" "$name")"
+echo "Driver : $(podman network inspect --format "{{.Driver}}" "$name")"
+echo "Internal : $(podman network inspect --format "{{.Internal}}" "$name")"
+echo "Created : $(podman network inspect --format "{{.Created}}" "$name")"
+echo "DNS : $(podman network inspect --format "{{.DNSEnabled}}" "$name")"
+echo "Subnet : $(podman network inspect --format "{{range .Subnets}}{{.Subnet}}{{end}}" "$name")"
+echo "Gateway : $(podman network inspect --format "{{range .Subnets}}{{.Gateway}}{{end}}" "$name")"

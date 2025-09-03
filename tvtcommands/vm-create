@@ -10,6 +10,7 @@ run_now=false
 distro="debian"
 
 while [[ $# -gt 0 ]]; do
+    echo "$1"
     case "$1" in
     --xfce|-x)
         xfce=true
@@ -19,6 +20,11 @@ while [[ $# -gt 0 ]]; do
         ;;
     --distro|-d)
         distro="$2"
+        if [[ -z "$distro" ]]; then
+            echo "Error: --distro|-d requires a value."
+            echo "Try 'vm-create --help' for usage."
+            exit 1
+        fi
         shift
         ;;
     --isolated|-i)
@@ -50,6 +56,11 @@ while [[ $# -gt 0 ]]; do
         echo "--help, -h              Show this help message and exit."
         echo ""
         exit 0
+        ;;
+    -*)
+        echo "Error: Unknown option '$1'."
+        echo "Try 'vm-create --help' for usage."
+        exit 1
         ;;
     *)
         name="$1"
