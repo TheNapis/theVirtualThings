@@ -1070,7 +1070,7 @@
        <item>
         <widget class="QPushButton" name="attachButton">
          <property name="text">
-          <string>Open terminal</string>
+          <string>Attach</string>
          </property>
         </widget>
        </item>
