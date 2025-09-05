@@ -575,7 +575,30 @@ class Ui_MainWindow(object):
             dialog.setText("The selected VM is not running.\nPlease start it before attaching.")
             dialog.exec_()
             return
-        subprocess.Popen(["konsole", "-e", f"vm-attach {self.selectedItem}"])
+        try:
+            subprocess.Popen(["konsole", "-e", f"vm-attach {self.selectedItem}"])
+        except FileNotFoundError:
+            try:
+                subprocess.Popen(["gnome-terminal", "--", f"vm-attach {self.selectedItem}"])
+            except FileNotFoundError:
+                try:
+                    subprocess.Popen(["xfce4-terminal", "-e", f"vm-attach {self.selectedItem}"])
+                except FileNotFoundError:
+                    try:
+                        subprocess.Popen(["x-terminal-emulator", "-e", f"vm-attach {self.selectedItem}"])
+                    except FileNotFoundError:
+                        try:
+                            subprocess.Popen(["mate-terminal", "-e", f"vm-attach {self.selectedItem}"])
+                        except FileNotFoundError:
+                            try:
+                                subprocess.Popen(["tilix", "-e", f"vm-attach {self.selectedItem}"])
+                            except FileNotFoundError:
+                                dialog = QtWidgets.QMessageBox()
+                                dialog.setWindowTitle("theVirtualThings - Error")
+                                dialog.setIcon(QtWidgets.QMessageBox.Critical)
+                                dialog.setText("No terminal emulator found.\nPlease install one to use this feature.")
+                                dialog.exec_()
+                                return
 
     def openNetworkPage(self):
         if self.selectedItem is None:
