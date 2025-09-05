@@ -126,7 +126,8 @@ class Ui_MainWindow(object):
         if isolated:
             args += " -i"
         
-        command = "vm-create {} -d {} {}".format(args,image,name)
+        command = "vm-create{} -d {} {}".format(args,image,name)
+        print(command)
         p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
         (output, err) = p.communicate()
         p_status = p.wait()
