@@ -6,6 +6,8 @@ if [ "$EUID" -ne 0 ]
 fi
 
 
+echo "Updating your depots and installing dependencies..."
+
 if [ -f /etc/debian_version ]; then
     # Debian/Ubuntu
     apt update
@@ -22,37 +24,50 @@ else
 fi
 
 
+echo "Removing old installation and copying new files..."
 rm -rf /usr/bin/theVirtualThings
 cp -r "$(pwd)" /usr/bin/theVirtualThings
 
 
+echo "Setting up environment variables..."
 cat > /etc/profile.d/thevirtualthings.sh << 'EOF'
 PATH=$PATH:/usr/bin/theVirtualThings/tvtcommands
 PATH=$PATH:/usr/bin/theVirtualThings/UI
 export PATH
 EOF
 
-
+echo "Creating desktop entry..."
 chmod  +x /usr/bin/theVirtualThings/theVirtualThings.desktop
 cp /usr/bin/theVirtualThings/theVirtualThings.desktop /usr/share/applications/
 
 
+
+echo "Building container images. This may take a while..."
+
+LOGGEDLOGGEDUSER=$(logname)
+
+echo "Building : arch_mod"
 cd /usr/bin/theVirtualThings/containerImages/archlinuxImages/archlinux
-sudo -u $USER podman build -t arch_mod .
+su $LOGGEDUSER -c 'podman build -t arch_mod .'
 
+echo "Building : arch_xfce"
 cd /usr/bin/theVirtualThings/containerImages/archlinuxImages/archlinuxxfce
-sudo -u $USER podman build -t arch_xfce .
+su $LOGGEDUSER -c 'podman build -t arch_xfce .'
 
+echo "Building : deb_mod"
 cd /usr/bin/theVirtualThings/containerImages/debianImages/debian
-sudo -u $USER podman build -t deb_mod .
+su $LOGGEDUSER -c 'podman build -t deb_mod .'
 
+echo "Building : debian_xfce"
 cd /usr/bin/theVirtualThings/containerImages/debianImages/debianxfce
-sudo -u $USER podman build -t debian_xfce .
+su $LOGGEDUSER -c 'podman build -t debian_xfce .'
 
+echo "Building : fedora_mod"
 cd /usr/bin/theVirtualThings/containerImages/fedoraImages/fedora
-sudo -u $USER podman build -t fedora_mod .
+su $LOGGEDUSER -c 'podman build -t fedora_mod .'
 
+echo "Building : fedora_xfce"
 cd /usr/bin/theVirtualThings/containerImages/fedoraImages/fedoraxfce
-sudo -u $USER podman build -t fedora_xfce .
+su $LOGGEDUSER -c 'podman build -t fedora_xfce .'
 
 echo "Installation terminée."

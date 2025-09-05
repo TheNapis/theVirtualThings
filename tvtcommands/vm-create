@@ -10,7 +10,6 @@ run_now=false
 distro="debian"
 
 while [[ $# -gt 0 ]]; do
-    echo "$1"
     case "$1" in
     --xfce|-x)
         xfce=true

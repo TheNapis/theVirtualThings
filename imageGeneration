@@ -1,0 +1,17 @@
+cd /usr/bin/theVirtualThings/containerImages/archlinuxImages/archlinux
+sudo -u $USER podman build -t arch_mod .
+
+cd /usr/bin/theVirtualThings/containerImages/archlinuxImages/archlinuxxfce
+sudo -u $USER podman build -t arch_xfce .
+
+cd /usr/bin/theVirtualThings/containerImages/debianImages/debian
+sudo -u $USER podman build -t deb_mod .
+
+cd /usr/bin/theVirtualThings/containerImages/debianImages/debianxfce
+sudo -u $USER podman build -t debian_xfce .
+
+cd /usr/bin/theVirtualThings/containerImages/fedoraImages/fedora
+sudo -u $USER podman build -t fedora_mod .
+
+cd /usr/bin/theVirtualThings/containerImages/fedoraImages/fedoraxfce
+sudo -u $USER podman build -t fedora_xfce .
