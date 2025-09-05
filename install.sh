@@ -44,7 +44,7 @@ cp /usr/bin/theVirtualThings/theVirtualThings.desktop /usr/share/applications/
 
 echo "Building container images. This may take a while..."
 
-LOGGEDLOGGEDUSER=$(logname)
+LOGGEDUSER=$(logname)
 
 echo "Building : arch_mod"
 cd /usr/bin/theVirtualThings/containerImages/archlinuxImages/archlinux
