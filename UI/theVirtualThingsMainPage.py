@@ -466,7 +466,7 @@ class Ui_MainWindow(object):
         return images
         
     def createVMWindow(self):
-        os.system("python3 UI/theVirtualThingsCreationPage.py")
+        os.system("python3 /usr/bin/theVirtualThings/UI/theVirtualThingsCreationPage.py")
         self.updateVMList()
 
     def deleteVM(self):
@@ -585,7 +585,7 @@ class Ui_MainWindow(object):
             dialog.setText("Please select a VM to manage its network interfaces.")
             dialog.exec_()
             return
-        os.system(f"python3 UI/theVirtualThingsNetworkPage.py {self.selectedItem}")
+        os.system(f"python3 /usr/bin/theVirtualThings/UI/theVirtualThingsNetworkPage.py {self.selectedItem}")
 
     def openTransferPage(self):
         if self.selectedItem is None:
@@ -595,7 +595,7 @@ class Ui_MainWindow(object):
             dialog.setText("Please select a VM to transfer files.")
             dialog.exec_()
             return
-        os.system(f"python3 UI/theVirtualThingsTransferPage.py {self.selectedItem}")
+        os.system(f"python3 /usr/bin/theVirtualThings/UI/theVirtualThingsTransferPage.py {self.selectedItem}")
 
     def updateVNList(self):
         self.listWidget.clear()
@@ -616,7 +616,7 @@ class Ui_MainWindow(object):
             self.infosList.addItem(item)
 
     def createVNWindow(self):
-        os.system("python3 UI/theVirtualThingsVnCreationPage.py")
+        os.system("python3 /usr/bin/theVirtualThings/UI/theVirtualThingsVnCreationPage.py")
         self.updateVNList()
 
     def deleteVN(self):

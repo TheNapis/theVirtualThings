@@ -1,9 +1,9 @@
 #!/usr/bin/env xdg-open
-[Desktop Entry]Launches my Python script
+[Desktop Entry]
 Name=theVirtualThings
-Comment=Launches my Python script
+Comment=Launches theVirtualThings graphical interface
 Exec=python3 /usr/bin/theVirtualThings/UI/theVirtualThingsMainPage.py
-Icon=/path/to/icon.png
+Icon=/usr/bin/theVirtualThings/logo.png
 Terminal=false
 Type=Application
 Categories=Development;
