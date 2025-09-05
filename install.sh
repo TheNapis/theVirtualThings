@@ -1,16 +1,29 @@
 #!/bin/bash
 
-if [ "$EUID" -ne 0 ]; then
-  echo "Please run as root or use sudo"
-  exit 1
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root or use sudo"
+  exit
+fi
+
+
+if [ -f /etc/debian_version ]; then
+    # Debian/Ubuntu
+    apt update
+    apt install -y python3 podman python3-pyqt5
+elif [ -f /etc/fedora-release ]; then
+    # Fedora
+    dnf install -y python3 podman python3-qt5
+elif [ -f /etc/arch-release ]; then
+    # Arch
+    pacman -Sy --noconfirm python podman python-pyqt5
+else
+    echo "Unknown distribution. Please install theVirtualThings manually."
+    exit 1
 fi
 
 
 rm -rf /usr/bin/theVirtualThings
-
-chmod +x /usr/bin/theVirtualThings/tvtcommands/*
-chmod +x /usr/bin/theVirtualThings/UI/*
-sudo cp -r "$(pwd)" /usr/bin/theVirtualThings
+cp -r "$(pwd)" /usr/bin/theVirtualThings
 
 
 cat > /etc/profile.d/thevirtualthings.sh << 'EOF'
@@ -20,6 +33,26 @@ export PATH
 EOF
 
 
-cp theVirtualThings.desktop /usr/share/applications/
+chmod  +x /usr/bin/theVirtualThings/theVirtualThings.desktop
+cp /usr/bin/theVirtualThings/theVirtualThings.desktop /usr/share/applications/
+
+
+cd /usr/bin/theVirtualThings/containerImages/archlinuxImages/archlinux
+sudo -u $USER podman build -t arch_mod .
+
+cd /usr/bin/theVirtualThings/containerImages/archlinuxImages/archlinuxxfce
+sudo -u $USER podman build -t arch_xfce .
+
+cd /usr/bin/theVirtualThings/containerImages/debianImages/debian
+sudo -u $USER podman build -t deb_mod .
+
+cd /usr/bin/theVirtualThings/containerImages/debianImages/debianxfce
+sudo -u $USER podman build -t debian_xfce .
+
+cd /usr/bin/theVirtualThings/containerImages/fedoraImages/fedora
+sudo -u $USER podman build -t fedora_mod .
+
+cd /usr/bin/theVirtualThings/containerImages/fedoraImages/fedoraxfce
+sudo -u $USER podman build -t fedora_xfce .
 
 echo "Installation terminée."
