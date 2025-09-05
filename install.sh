@@ -46,28 +46,30 @@ echo "Building container images. This may take a while..."
 
 LOGGEDUSER=$(logname)
 
+
+
 echo "Building : arch_mod"
-cd ./containerImages/archlinuxImages/archlinux
+cd /usr/bin/theVirtualThings/containerImages/archlinuxImages/archlinux
 su $LOGGEDUSER -c 'podman build -t arch_mod .'
 
 echo "Building : arch_xfce"
-cd ./containerImages/archlinuxImages/archlinuxxfce
+cd /usr/bin/theVirtualThings/containerImages/archlinuxImages/archlinuxxfce
 su $LOGGEDUSER -c 'podman build -t arch_xfce .'
 
 echo "Building : deb_mod"
-cd ./containerImages/debianImages/debian
+cd /usr/bin/theVirtualThings/containerImages/debianImages/debian
 su $LOGGEDUSER -c 'podman build -t deb_mod .'
 
 echo "Building : debian_xfce"
-cd ./containerImages/debianImages/debianxfce
+cd /usr/bin/theVirtualThings/containerImages/debianImages/debianxfce
 su $LOGGEDUSER -c 'podman build -t debian_xfce .'
 
 echo "Building : fedora_mod"
-cd ./containerImages/fedoraImages/fedora
+cd /usr/bin/theVirtualThings/containerImages/fedoraImages/fedora
 su $LOGGEDUSER -c 'podman build -t fedora_mod .'
 
 echo "Building : fedora_xfce"
-cd ./containerImages/fedoraImages/fedoraxfce
+cd /usr/bin/theVirtualThings/containerImages/fedoraImages/fedoraxfce
 su $LOGGEDUSER -c 'podman build -t fedora_xfce .'
 
 echo "Installation terminée."
