@@ -111,13 +111,22 @@ class Ui_MainWindow(object):
         
     def mountVM(self):
         try:
-            subprocess.run(f"podman unshare bash -c 'mnt=$(podman mount {self.selectedVM}); dolphin $mnt'", shell=True)
+            result = subprocess.run(f"podman unshare bash -c 'mnt=$(podman mount {self.selectedVM}); dolphin $mnt'", shell=True)
+            returncode = result.returncode
+            if returncode != 0:
+                raise FileNotFoundError
         except FileNotFoundError:
             try:
                 subprocess.run(f"podman unshare bash -c 'mnt=$(podman mount {self.selectedVM}); nautilus $mnt'", shell=True)
+                returncode = result.returncode
+                if returncode != 0:
+                    raise FileNotFoundError
             except FileNotFoundError:
                 try:
                     subprocess.run(f"podman unshare bash -c 'mnt=$(podman mount {self.selectedVM}); thunar $mnt'", shell=True)
+                    returncode = result.returncode
+                    if returncode != 0:
+                        raise FileNotFoundError
                 except FileNotFoundError:
                     dialog = QtWidgets.QMessageBox()
                     dialog.setWindowTitle("theVirtualThings - Error")
