@@ -591,7 +591,7 @@ class Ui_MainWindow(object):
                             subprocess.Popen(["mate-terminal", "-e", f"vm-attach {self.selectedItem}"])
                         except FileNotFoundError:
                             try:
-                                subprocess.Popen(["tilix", "-e", f"vm-attach {self.selectedItem}"])
+                                subprocess.Popen(["ptyxis", "-x", f"vm-attach {self.selectedItem}"])
                             except FileNotFoundError:
                                 dialog = QtWidgets.QMessageBox()
                                 dialog.setWindowTitle("theVirtualThings - Error")

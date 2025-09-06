@@ -8,6 +8,8 @@ Installation command :
 git clone https://github.com/TheNapis/theVirtualThings.git && cd theVirtualThings && chmod +x ./install.sh && sudo ./install.sh
 ```
 
+
+
 ## Containers commands 
 ### VM PART (vm = virtual machine)
 
@@ -58,4 +60,6 @@ Exemple : vm-create -h
 
 _The help page is not implemented in find_free_port._
 
+
+How can i access a VM virtual screen
 
