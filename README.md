@@ -58,8 +58,17 @@ find_free_port : That is getting fre ports after 5900 (Used for vm-create with -
 
 Exemple : vm-create -h
 
-_The help page is not implemented in find_free_port._
+_The help page is not implemented for find_free_port as it's not meant to use normaly_
 
 
-How can i access a VM virtual screen
+How can i access a VM virtual screen : use TigerVNC or another VNC Client and the address is localhost:{your exposed port 5900,5901,...}
+
+Your exposed VNC port : map[5900/tcp:[{0.0.0.0 **5901**}]] is 5901 in that situation
+
+
+### For WSL : Fedora is strongly recomended 
+
+You need to install a file manager like thunar or dolphin
+and a terminal emulator like xfce4-terminal or konsole
+
 
