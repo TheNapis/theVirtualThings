@@ -2,7 +2,11 @@
 
 Works with podman.
 
-The most easy way to "_install_" those commands is just to add all the content of [commands.sh](./commands.sh) at the end of your .bashrc, .zshrc,... 
+Installation command : 
+
+```bash 
+git clone https://github.com/TheNapis/theVirtualThings.git && cd theVirtualThings && chmod +x ./install.sh && sudo ./install.sh
+```
 
 ## Containers commands 
 ### VM PART (vm = virtual machine)
