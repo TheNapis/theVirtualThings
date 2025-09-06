@@ -68,7 +68,26 @@ Your exposed VNC port : map[5900/tcp:[{0.0.0.0 **5901**}]] is 5901 in that situa
 
 ### For WSL : Fedora is strongly recomended 
 
-You need to install a file manager like thunar or dolphin
-and a terminal emulator like xfce4-terminal or konsole
+You need to install a file manager like **thunar** or **dolphin**
+and a terminal emulator like **xfce4-terminal** or **konsole**
 
+You also need to create the file
+```bash 
+/etc/containers/containers.conf
+```
+with the following content :
+```bash 
+[network]
+firewall_driver="iptables"
+```
+and install the package **iptables-nft**
 
+Commands for WSL (**fedora**) :
+```bash
+dnf install tigervnc thunar xfce4-terminal
+
+cat > /etc/containers/containers.conf << 'EOF'
+[network]
+firewall_driver="iptables"
+EOF
+```
