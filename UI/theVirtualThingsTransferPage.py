@@ -52,7 +52,7 @@ class Ui_MainWindow(object):
         self.vmToHostButton.setText(_translate("MainWindow", "Transfer a file from the VM to the host"))
         self.subLabel.setText(_translate("MainWindow", "Host <--> {vmName}"))
         self.mountButton.setText(_translate("MainWindow", "Mount the VM filesystem"))
-        self.selectedVM = "tnb"
+        self.selectedVM = sys.argv[1] if len(sys.argv) > 1 else None
         if self.selectedVM is None:
             dialog = QtWidgets.QMessageBox()
             dialog.setWindowTitle("theVirtualThings - Error")
