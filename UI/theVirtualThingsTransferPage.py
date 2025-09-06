@@ -52,7 +52,7 @@ class Ui_MainWindow(object):
         self.vmToHostButton.setText(_translate("MainWindow", "Transfer a file from the VM to the host"))
         self.subLabel.setText(_translate("MainWindow", "Host <--> {vmName}"))
         self.mountButton.setText(_translate("MainWindow", "Mount the VM filesystem"))
-        self.selectedVM = sys.argv[1] if len(sys.argv) > 1 else None
+        self.selectedVM = "tnb"
         if self.selectedVM is None:
             dialog = QtWidgets.QMessageBox()
             dialog.setWindowTitle("theVirtualThings - Error")
@@ -66,16 +66,26 @@ class Ui_MainWindow(object):
         self.mountButton.clicked.connect(self.mountVM)
 
     def hostToVM(self):
-        file_dialog = QFileDialog(self)
+        file_dialog = QFileDialog()
         file_dialog.setWindowTitle("Open File")
         file_dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
         file_dialog.setViewMode(QFileDialog.ViewMode.Detail)
 
         if file_dialog.exec():
             selected_files = file_dialog.selectedFiles()
-            print("Selected File:", selected_files[0])
+            if selected_files[0] == '' or selected_files[0] is None:
+                return
 
-        subprocess.run(f"podman cp {selected_files[0]} {self.selectedVM}:/home", shell=True)
+        try:
+            subprocess.run(f"podman cp {selected_files[0]} {self.selectedVM}:/home", shell=True)
+        except Exception as e:
+            dialog = QtWidgets.QMessageBox()
+            dialog.setWindowTitle("theVirtualThings - Error")
+            dialog.setIcon(QtWidgets.QMessageBox.Critical)
+            dialog.setText(f"An error occurred, please check the file path and try again.")
+            dialog.setDetailedText("Error details : " + str(e))
+            dialog.exec_()
+            return
         dialog = QtWidgets.QMessageBox()
         dialog.setWindowTitle("theVirtualThings - Info")
         dialog.setIcon(QtWidgets.QMessageBox.Information)
@@ -84,10 +94,14 @@ class Ui_MainWindow(object):
         
 
     def vmToHost(self):
-        text, okPressed = QInputDialog.getText(self, "Enter your file path","Your file:", QLineEdit.Normal, "")
+        text, okPressed = QInputDialog.getText(None, "Enter your file path","Your file:")
         if okPressed and text != '':
             print(text)
-        dir = str(QFileDialog.getExistingDirectory(self, "Select Directory to Save File"))
+        else:
+            return
+        dir = str(QFileDialog.getExistingDirectory(None, "Select Directory to Save File"))
+        if dir == '':
+            return
         subprocess.run(f"podman cp {self.selectedVM}:{text} {dir}", shell=True)
         dialog = QtWidgets.QMessageBox()
         dialog.setWindowTitle("theVirtualThings - Info")
@@ -96,8 +110,21 @@ class Ui_MainWindow(object):
         dialog.exec_()
         
     def mountVM(self):
-        subprocess.run(f"podman unshare bash -c 'mnt=$(podman mount {self.selectedVM}); dolphin $mnt'", shell=True)
-        subprocess.run(f" {self.selectedVM}", shell=True)
+        try:
+            subprocess.run(f"podman unshare bash -c 'mnt=$(podman mount {self.selectedVM}); dolphin $mnt'", shell=True)
+        except FileNotFoundError:
+            try:
+                subprocess.run(f"podman unshare bash -c 'mnt=$(podman mount {self.selectedVM}); nautilus $mnt'", shell=True)
+            except FileNotFoundError:
+                try:
+                    subprocess.run(f"podman unshare bash -c 'mnt=$(podman mount {self.selectedVM}); thunar $mnt'", shell=True)
+                except FileNotFoundError:
+                    dialog = QtWidgets.QMessageBox()
+                    dialog.setWindowTitle("theVirtualThings - Error")
+                    dialog.setIcon(QtWidgets.QMessageBox.Critical)
+                    dialog.setText("No file manager found! Please install Dolphin, Nautilus or Thunar.")
+                    dialog.exec_()
+                    return
 
 
         
