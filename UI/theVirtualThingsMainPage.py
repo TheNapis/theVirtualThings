@@ -419,7 +419,7 @@ class Ui_MainWindow(object):
         self.createButton.setText(_translate("MainWindow", "Create"))
         self.startButton.setText(_translate("MainWindow", "Start"))
         self.stopButton.setText(_translate("MainWindow", "Stop"))
-        self.attachButton.setText(_translate("MainWindow", "Open terminal"))
+        self.attachButton.setText(_translate("MainWindow", "Open VM"))
         self.networkButton.setText(_translate("MainWindow", "Manage network"))
         self.filesButton.setText(_translate("MainWindow", "Transfer files"))
         self.removeButton.setText(_translate("MainWindow", "Remove"))
@@ -436,6 +436,17 @@ class Ui_MainWindow(object):
         self.vnButton.clicked.connect(self.vnSwitch)
         self.vmButton.clicked.connect(self.vmSwitch)
 
+
+    def getExposedhostPort(self):
+        vmInfoLines = os.popen(f"vm-info {self.selectedItem}").read().splitlines()
+        for line in vmInfoLines:
+            if line.startswith("Exposed Ports :"):
+                line = line.split(":")
+                line = line[2].split(" ")
+                line = line[1]
+                port = line[:-3]
+                return port
+        return None
 
     def updateVMInfos(self, vmName):
         self.selectedItem = vmName
@@ -575,23 +586,36 @@ class Ui_MainWindow(object):
             dialog.setText("The selected VM is not running.\nPlease start it before attaching.")
             dialog.exec_()
             return
+        if "xfce" in os.popen(f"vm-info {self.selectedItem}").read():
+            dialog = QtWidgets.QMessageBox()
+            dialog.setWindowTitle("theVirtualThings - Information")
+            dialog.setIcon(QtWidgets.QMessageBox.Question)
+            dialog.setText("The selected VM got a GUI.\nWould you like to open it ?")
+            dialog.setDetailedText("If you choose No, a terminal will be opened instead.")
+            dialog.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+            dialog.exec_()
+            if dialog.result() == QtWidgets.QMessageBox.Yes:
+                port = self.getExposedhostPort()
+                os.system(f"vncviewer localhost:{port}")
+                return
         try:
-            subprocess.Popen(["konsole", "-e", f"vm-attach {self.selectedItem}"])
+            command = f"vm-attach {self.selectedItem}"
+            subprocess.Popen(["konsole", "-e", "bash", "-c", command])
         except FileNotFoundError:
             try:
-                subprocess.Popen(["gnome-terminal", "--", f"vm-attach {self.selectedItem}"])
+                subprocess.Popen(["gnome-terminal", "--", command])
             except FileNotFoundError:
                 try:
-                    subprocess.Popen(["xfce4-terminal", "-e", f"vm-attach {self.selectedItem}"])
+                    subprocess.Popen(["xfce4-terminal", "-e", command])
                 except FileNotFoundError:
                     try:
-                        subprocess.Popen(["x-terminal-emulator", "-e", f"vm-attach {self.selectedItem}"])
+                        subprocess.Popen(["x-terminal-emulator", "-e", command])
                     except FileNotFoundError:
                         try:
-                            subprocess.Popen(["mate-terminal", "-e", f"vm-attach {self.selectedItem}"])
+                            subprocess.Popen(["mate-terminal", "-e", command])
                         except FileNotFoundError:
                             try:
-                                subprocess.Popen(["ptyxis", "-x", f"vm-attach {self.selectedItem}"])
+                                subprocess.Popen(["ptyxis", "-x", command])
                             except FileNotFoundError:
                                 dialog = QtWidgets.QMessageBox()
                                 dialog.setWindowTitle("theVirtualThings - Error")
@@ -727,6 +751,12 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
