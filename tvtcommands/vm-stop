@@ -14,4 +14,4 @@ elif [[ $name == "-h" || $name == "--help" ]]; then
     echo ""
     exit 0
 fi
-podman stop -t 3 "$name"
+podman stop -t 1 "$name"

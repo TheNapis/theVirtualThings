@@ -48,7 +48,7 @@ while [[ $# -gt 0 ]]; do
         echo ""
         echo "Options:"
         echo "--xfce, -x              Create a Debian container with XFCE desktop environment and VNC access."
-        echo "--insolated, -i         Create an isolated container with no network access."
+        echo "--isolated, -i         Create an isolated container with no network access."
         echo "--connect, -c NET       Connect the container to an existing network NET."
         echo "--distro, -d DISTRO     Specify the Linux distribution (debian, fedora, archlinux). Default is debian."
         echo "--run-now, -r           Start and attach to the container immediately after creation."
