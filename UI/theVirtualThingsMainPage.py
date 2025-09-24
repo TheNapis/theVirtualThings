@@ -596,7 +596,7 @@ class Ui_MainWindow(object):
             dialog.exec_()
             if dialog.result() == QtWidgets.QMessageBox.Yes:
                 port = self.getExposedhostPort()
-                os.system(f"vncviewer localhost:{port}")
+                subprocess.Popen(["vncviewer", f"localhost:{port}"])
                 return
         try:
             command = f"vm-attach {self.selectedItem}"
